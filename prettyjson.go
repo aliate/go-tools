@@ -10,7 +10,16 @@ const (
 	tab = "\t"
 )
 
-func PrettyJson(data interface{}) (string, error) {
+func prettyString(data string) (string, error) {
+	var buffer bytes.Buffer
+	err := json.Indent(&buffer, []byte(data), empty, tab)
+	if err != nil {
+		return "", err
+	}
+	return string(buffer.Bytes()), nil
+}
+
+func prettyStruct(data interface{}) (string, error) {
 	buffer := new(bytes.Buffer)
 	encoder := json.NewEncoder(buffer)
 	encoder.SetIndent(empty, tab)
@@ -22,3 +31,11 @@ func PrettyJson(data interface{}) (string, error) {
 	return buffer.String(), nil
 }
 
+func PrettyJSON(data interface{}) (string, error) {
+	switch data.(type) {
+	case string:
+		return prettyString(data.(string))
+	default:
+		return prettyStruct(data)
+	}
+}
