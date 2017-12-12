@@ -10,7 +10,7 @@ type Index struct {
 	Status string
 }
 
-func PrettyJson_test(t *testing.T) {
+func TestPrettyJson(t *testing.T) {
 	indices := []Index{
 		{"logstash-2017-12-12", "open"},
 		{"logstash-2017-12-11", "open"},
